@@ -21,16 +21,7 @@
 - Stage 3, Experiments: (Week 11-13, Deadline: 17.04.)
   - Train the model from Task 1 on the compressed data using both compression methods. 
   - Evaluate baseline model and proposed tokenization + lightweight entropy model framework based on rate-utility and computational efficiency.
-    - => Define metrics in more detail.
-    - Reconstruction error ???
-    - Compression rate ???
-    - Metrcs for "rate-utility":
-      - ???
-    - Metrics for "model weight":
-      -	Parameter count: total number of trainable parameters
-      -	Computational cost: FLOPs per fixed-length input window
-      -	Inference latency: wall-clock encoding and decoding time
-      -	Memory footprint: peak memory usage during inference
+    - => Define experiment setup and metrics in more detail. See other note.
 - Stage 4, Finalizing: (Week 14-17, Deadline: 15.05.)
   - Ablation study of the proposed tokenization + lightweight entropy model framework. 
   - Write the methodology, results, discussion, and conclusion part fo the final report. 

@@ -36,57 +36,30 @@ The TCN–RNN autoencoder is a representative of state-of-the-art continuous-lat
 - Windows are treated as independent samples during training and evaluation.
 
 2. TCN encoder (transform coding stage)
-	•	The encoder consists of a stack of Temporal Convolutional Network (TCN) blocks with increasing dilation factors.
-	•	Each TCN block contains:
-	•	A 1D convolution operating along the temporal dimension
-	•	Normalization (BatchNorm or LayerNorm)
-	•	A nonlinear activation function (ReLU or LeakyReLU)
-	•	Optional dropout for regularization
-	•	A residual connection to stabilize training
-	•	Temporal downsampling is introduced via strided convolutions or pooling layers to reduce sequence length.
-	•	The encoder maps the input signal to a lower-resolution, higher-dimensional latent sequence, forming the continuous bottleneck.
-
-Outcome:
-A compressed continuous latent representation whose size is controlled by the downsampling factor and channel width.
-
-⸻
+- The encoder consists of a stack of Temporal Convolutional Network (TCN) blocks with increasing dilation factors.
+- Each TCN block contains:
+  - A 1D convolution operating along the temporal dimension
+  - Normalization (BatchNorm or LayerNorm)
+  - A nonlinear activation function (ReLU or LeakyReLU)
+  - Optional dropout for regularization
+  - A residual connection to stabilize training
+- The encoder maps the input signal to a lower-resolution, higher-dimensional latent sequence, forming the continuous bottleneck.
+- Outcome: A compressed continuous latent representation whose size is controlled by the downsampling factor and channel width.
 
 3. RNN bottleneck (sequence compression)
-	•	The encoder output is processed by a recurrent neural network (LSTM or GRU).
-	•	The RNN captures longer-range temporal dependencies that are not easily modeled by convolutions alone.
-	•	The hidden state dimensionality and number of layers define the strength of the bottleneck.
-	•	The RNN produces a sequence of hidden states (or a reduced representation) that serves as the core compressed signal.
-
-Interpretation:
-Compression is achieved implicitly by restricting temporal resolution and latent dimensionality rather than by discretization.
-
-⸻
+- The encoder output is processed by a recurrent neural network (LSTM or GRU). The RNN captures longer-range temporal dependencies that are not easily modeled by convolutions alone.
+- The RNN produces a sequence of hidden states (or a reduced representation) that serves as the core compressed signal. The hidden state dimensionality and number of layers define the strength of the bottleneck. => Compression is achieved implicitly by restricting temporal resolution and latent dimensionality rather than by discretization.
 
 4. RNN decoder
-	•	A symmetric RNN decoder reconstructs a latent sequence from the bottleneck representation.
-	•	The decoder mirrors the bottleneck RNN in depth and hidden size.
-	•	No probabilistic modeling or entropy estimation is performed at this stage.
-
-⸻
+- A symmetric RNN decoder reconstructs a latent sequence from the bottleneck representation.
+- The decoder mirrors the bottleneck RNN in depth and hidden size.
 
 5. TCN decoder (signal reconstruction)
-	•	A mirrored TCN stack upsamples the latent sequence back to the original temporal resolution.
-	•	Transposed convolutions or interpolation-based upsampling are used.
-	•	A final linear projection maps features back to the original channel dimension.
+- A mirrored TCN stack upsamples the latent sequence back to the original temporal resolution.
+- Transposed convolutions or interpolation-based upsampling are used.
+- A final linear projection maps features back to the original channel dimension.
 
-Training objective:
-	•	Reconstruction loss (e.g., MSE or MAE) between input and reconstructed signal.
-
-⸻
-
-6. Compression characteristics (TCRAE)
-	•	Compression rate is defined structurally via:
-	•	Temporal downsampling factor
-	•	Latent dimensionality
-	•	No explicit quantization, entropy modeling, or bitstream generation is performed.
-	•	Reported compression rates are proxy metrics derived from latent size.
-
-⸻
+=> The overall training objective: Reconstruction loss (e.g., MSE or MAE) between input and reconstructed signal!
 
 ### Detailed Implementation: Tokenization-Based Compression
 

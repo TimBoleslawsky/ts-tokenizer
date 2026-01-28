@@ -101,13 +101,22 @@ Training objective:
 ⸻
 
 2. Lightweight encoder (feature extraction)
-	•	A shallow neural encoder (e.g., small CNN or MLP applied per timestep) maps the input signal to intermediate embeddings.
-	•	The encoder is intentionally kept lightweight to avoid introducing heavy representational power before tokenization.
-	•	Temporal resolution is preserved or mildly reduced, depending on the tokenizer design.
+- A shallow neural encoder (e.g., small CNN or MLP applied per timestep) maps the input signal to intermediate embeddings.
+- The encoder is intentionally kept lightweight to avoid introducing heavy representational power before tokenization.
+- Intuition: The encoder implements the learned transform stage of a lossy compression pipeline. Its purpose is not to predict labels or reconstruct the input per se, but to reshape the data into a representation that can be efficiently discretized.
+
+Specifically, the encoder learns a mapping that:
+	•	Removes redundancy and correlations present in the raw time series
+	•	Concentrates important information into a low-dimensional, stable representation
+	•	Aligns the geometry of the representation space with the constraints of quantization
+
+Although a decoder and reconstruction loss may be used during training, reconstruction is not the task objective; it serves only as a proxy to measure distortion and provide a learning signal. The encoder is instead optimized under a rate–distortion trade-off, encouraging representations that are robust to quantization and reusable across similar signal segments.
+
+In contrast to autoencoder-based methods, where the encoder is free to produce high-entropy continuous latents, the encoder here is explicitly shaped to produce quantization-friendly representations that support discrete tokenization and entropy coding.
 
 ⸻
 
-3. Vector quantization / tokenization
+4. Vector quantization / tokenization
 	•	Intermediate embeddings are discretized using a learned codebook.
 	•	Each embedding vector is replaced by the index of its nearest codebook entry.
 	•	This step introduces the only explicit source of information loss.

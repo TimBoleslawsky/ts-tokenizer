@@ -119,9 +119,11 @@ Training objective:
    - z_q → head → y_hat (the head is completely replaceable; decoder, if we want reconstruction; downstream head, if we want downstream task error)
    - Threeway loss computation:
      - Loss => head: Gradients flow normally into the head parameters.
-     - Loss => z_q: 
+     - Loss => z_q: Here we "learn" the codebook. In this case only codebook[q] receives gradients.
+     - Loss => encoder: The encoder is learned using the straight-through estimator (STE). The encoder receives gradients pointing in the direction that reduces loss if z had been passed directly. This is done via this line: z_q_st = z + (z_q - z).detach() (for forward pass z_q_st = z_q; for backward pass this is ignored and we just use z). This way the encoder learns to produce outputs closer to the codewords that reduce the loss.
 
-#### Laysr 2: Entropy modeling & coding
+#### Layer 2: Entropy modeling & coding
+IMPORTANT: This is completely seperate from the first layer. Maybe we don't even need it? 
 
 4. Entropy modeling
  - A learned probabilistic model estimates the distribution of token sequences.

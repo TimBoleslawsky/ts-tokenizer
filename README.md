@@ -1,4 +1,4 @@
-# ts-tokenizer
+# ts-tokenizer-thesis
 
 ## Plan
 - Stage 1, Setup and Preparation: (Week 1-5, Deadline: 20.02.)

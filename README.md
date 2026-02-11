@@ -23,16 +23,9 @@
 
 ## ToDo's
 - Stage 1: 
-  - Finalize Background (Emrik).
-  - Finalize Aim (Emrik).
-  - Write Problem Formulation (Emrik).
-  - Write Limitations (Emrik).
-  - Write Methodology (Tim).
-    - Define downstream taks more clearly
-    - Validate and write about the open source dataset. 
-  - Write Risk analysis (Tim).
-  - Write Time plan (Tim).
-  - Work on the implementation of the downstream task (Tim). 
+  - Convert timeline into table. (Tim)
+  - Work on the implementation of the downstream task.
+    - ...
 - Stage 2:
   - ...
 
